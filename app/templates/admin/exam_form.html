@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1 class="h4 mb-4">{{ title }}</h1>
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <div class="row g-3">
+    <div class="col-12">
+      {{ form.title.label(class="form-label") }}
+      {{ form.title }}
+      {% for err in form.title.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6">
+      {{ form.exam_date.label(class="form-label") }}
+      {{ form.exam_date }}
+      {% for err in form.exam_date.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6">
+      {{ form.exam_time.label(class="form-label") }}
+      {{ form.exam_time }}
+      {% for err in form.exam_time.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6">
+      {{ form.total_seats.label(class="form-label") }}
+      {{ form.total_seats }}
+      {% for err in form.total_seats.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6">
+      {{ form.fee.label(class="form-label") }}
+      {{ form.fee }}
+      {% for err in form.fee.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+    </div>
+    <div class="col-12">
+      {{ form.registration_deadline.label(class="form-label") }}
+      {{ form.registration_deadline }}
+      {% for err in form.registration_deadline.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+      <div class="form-text">Must be before exam date and time (UTC).</div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('admin.exams') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Admin dashboard{% endblock %}
+{% block content %}
+<h1 class="h4 mb-4">Admin dashboard</h1>
+<div class="row g-3">
+  <div class="col-sm-4">
+    <div class="card card-ers">
+      <div class="card-body">
+        <div class="text-muted small text-uppercase">Exams</div>
+        <div class="display-6 fw-semibold text-primary">{{ n_exams }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card card-ers">
+      <div class="card-body">
+        <div class="text-muted small text-uppercase">Registrations</div>
+        <div class="display-6 fw-semibold text-primary">{{ n_registrations }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card card-ers">
+      <div class="card-body">
+        <div class="text-muted small text-uppercase">Students</div>
+        <div class="display-6 fw-semibold text-primary">{{ n_students }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="mt-4 mb-0"><a class="btn btn-primary" href="{{ url_for('admin.exams') }}">Manage exams</a></p>
+{% endblock %}
