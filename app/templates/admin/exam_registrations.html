@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Registrations — {{ exam.title }}{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <div>
+    <h1 class="h4 mb-0">Registrations</h1>
+    <p class="text-muted mb-0 small">{{ exam.title }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary" href="{{ url_for('admin.exam_registrations_export', exam_id=exam.id) }}"><i class="bi bi-download"></i> Export CSV</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('admin.exams') }}">Back to exams</a>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Student</th>
+        <th>Email</th>
+        <th>Registered</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in registrations %}
+      <tr>
+        <td class="fw-semibold">{{ r.student.username }}</td>
+        <td>{{ r.student.email }}</td>
+        <td>{{ r.registered_at.strftime('%Y-%m-%d %H:%M') }} UTC</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="text-muted">No registrations for this exam.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

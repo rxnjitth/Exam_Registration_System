@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Manage exams{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">Exams</h1>
+  <a class="btn btn-primary" href="{{ url_for('admin.exam_new') }}"><i class="bi bi-plus-lg"></i> New exam</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th><a class="text-decoration-none text-dark" href="{{ url_for('admin.exams', sort='title', order=('desc' if sort=='title' and order=='asc' else 'asc'), page=pagination.page) }}">Title <i class="bi bi-arrow-down-up"></i></a></th>
+        <th><a class="text-decoration-none text-dark" href="{{ url_for('admin.exams', sort='exam_date', order=('desc' if sort=='exam_date' and order=='asc' else 'asc'), page=1) }}">Date</a></th>
+        <th>Time</th>
+        <th><a class="text-decoration-none text-dark" href="{{ url_for('admin.exams', sort='seats_available', order=('desc' if sort=='seats_available' and order=='asc' else 'asc'), page=1) }}">Seats left</a></th>
+        <th><a class="text-decoration-none text-dark" href="{{ url_for('admin.exams', sort='fee', order=('desc' if sort=='fee' and order=='asc' else 'asc'), page=1) }}">Fee</a></th>
+        <th>Deadline</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in pagination.items %}
+      <tr>
+        <td class="fw-semibold">{{ e.title }}</td>
+        <td>{{ e.exam_date }}</td>
+        <td>{{ e.exam_time.strftime('%H:%M') }}</td>
+        <td>{{ e.seats_available }} / {{ e.total_seats }}</td>
+        <td>${{ '%.2f'|format(e.fee) }}</td>
+        <td class="small">{{ e.registration_deadline.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td class="text-end text-nowrap">
+          <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin.exam_registrations', exam_id=e.id) }}">Registrations</a>
+          <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin.exam_edit', exam_id=e.id) }}">Edit</a>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#del{{ e.id }}">Delete</button>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="7" class="text-muted">No exams yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% for e in pagination.items %}
+<div class="modal fade" id="del{{ e.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete exam</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">Delete <strong>{{ e.title }}</strong> and all its registrations?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="post" action="{{ url_for('admin.exam_delete', exam_id=e.id) }}" class="d-inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% if pagination.pages > 1 %}
+<nav aria-label="Exam pages">
+  <ul class="pagination">
+    <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('admin.exams', page=pagination.prev_num, sort=sort, order=order) if pagination.has_prev else '#' }}">Previous</a>
+    </li>
+    {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if p %}
+        <li class="page-item {% if p == pagination.page %}active{% endif %}"><a class="page-link" href="{{ url_for('admin.exams', page=p, sort=sort, order=order) }}">{{ p }}</a></li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">…</span></li>
+      {% endif %}
+    {% endfor %}
+    <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+      <a class="page-link" href="{{ url_for('admin.exams', page=pagination.next_num, sort=sort, order=order) if pagination.has_next else '#' }}">Next</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}
