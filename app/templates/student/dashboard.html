@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Student dashboard{% endblock %}
+{% block content %}
+<h1 class="h4 mb-4">Dashboard</h1>
+<div class="row g-3">
+  <div class="col-md-6">
+    <h2 class="h6 text-muted text-uppercase">My registrations</h2>
+    {% if my_registrations %}
+      <div class="list-group">
+        {% for r in my_registrations %}
+        <div class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            <div class="fw-semibold">{{ r.exam.title }}</div>
+            <div class="small text-muted">{{ r.exam.exam_date }} · {{ r.exam.exam_time.strftime('%H:%M') }} · ${{ '%.2f'|format(r.exam.fee) }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">You have not registered for any exams yet.</p>
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    <h2 class="h6 text-muted text-uppercase">Upcoming exams with seats</h2>
+    {% if upcoming_exams %}
+      <div class="list-group">
+        {% for e in upcoming_exams %}
+        <div class="list-group-item">
+          <div class="fw-semibold">{{ e.title }}</div>
+          <div class="small text-muted">{{ e.exam_date }} · {{ e.exam_time.strftime('%H:%M') }} · {{ e.seats_available }} seats · ${{ '%.2f'|format(e.fee) }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">No open exams with available seats right now.</p>
+    {% endif %}
+  </div>
+</div>
+<p class="mt-4 mb-0"><a class="btn btn-outline-primary btn-sm" href="{{ url_for('student.exams') }}">Browse all exams</a></p>
+{% endblock %}
