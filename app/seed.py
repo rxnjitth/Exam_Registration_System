@@ -11,7 +11,7 @@ def seed_defaults():
         admin = User(
             username="admin",
             email="admin@example.com",
-            password_hash=hash_password("admin12345"),
+            password_hash=hash_password("admin"),
             is_admin=True,
         )
         db.session.add(admin)
