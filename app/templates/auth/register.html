@@ -1,31 +1,192 @@
 {% extends "base.html" %}
 {% block title %}Register — Exam Registration{% endblock %}
+{% block head %}
+<style>
+  body {
+    background:
+      radial-gradient(circle at top left, rgba(61, 110, 165, 0.16), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(111, 160, 217, 0.18), transparent 30%),
+      linear-gradient(135deg, #eef4fb 0%, #f8fbfe 48%, #eef3f8 100%);
+  }
+
+  .main-panel {
+    background: transparent;
+    box-shadow: none;
+    padding: 0 !important;
+  }
+
+  .auth-shell {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .auth-card {
+    width: min(100%, 1040px);
+    border: 1px solid rgba(61, 110, 165, 0.12);
+    border-radius: 28px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 24px 60px rgba(40, 60, 85, 0.12);
+  }
+
+  .auth-hero {
+    background:
+      linear-gradient(145deg, rgba(31, 69, 113, 0.96), rgba(61, 110, 165, 0.92)),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h420v420H0z' fill='%23ffffff' fill-opacity='0'/%3E%3Cpath d='M-34 72c66-44 143-45 226-3 61 30 123 43 176 31' stroke='%23ffffff' stroke-opacity='.14' stroke-width='2'/%3E%3Cpath d='M-40 174c88-55 178-58 270-9 48 25 101 37 151 35' stroke='%23ffffff' stroke-opacity='.12' stroke-width='2'/%3E%3Cpath d='M-34 278c80-45 165-48 254-8 52 23 110 34 166 30' stroke='%23ffffff' stroke-opacity='.1' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+    color: #f8fbff;
+  }
+
+  .auth-hero .brand-mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 1.35rem;
+  }
+
+  .auth-hero .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .auth-hero .feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+    color: rgba(248, 251, 255, 0.92);
+  }
+
+  .auth-hero .feature-list i {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    flex: 0 0 auto;
+  }
+
+  .auth-form-panel {
+    background: #fff;
+  }
+
+  .auth-card .form-control {
+    border-radius: 14px;
+    min-height: 48px;
+    border-color: #d8e2ee;
+  }
+
+  .auth-card .form-control:focus {
+    border-color: #3d6ea5;
+    box-shadow: 0 0 0 0.2rem rgba(61, 110, 165, 0.14);
+  }
+
+  .auth-card .btn-primary {
+    border-radius: 14px;
+    min-height: 48px;
+    box-shadow: 0 12px 24px rgba(61, 110, 165, 0.22);
+  }
+
+  .auth-card .form-label {
+    font-weight: 600;
+    color: #22324a;
+  }
+
+  .auth-card .auth-footnote a {
+    color: #3d6ea5;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .auth-card .auth-footnote a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 991.98px) {
+    .auth-shell {
+      min-height: auto;
+      padding: 1rem 0 2rem;
+    }
+
+    .auth-hero {
+      border-radius: 24px 24px 0 0;
+    }
+  }
+</style>
+{% endblock %}
 {% block content %}
-<h1 class="h4 mb-3">Create student account</h1>
-<form method="post" novalidate>
-  {{ form.hidden_tag() }}
-  <div class="mb-3">
-    {{ form.username.label(class="form-label") }}
-    {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else "")) }}
-    {% for err in form.username.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+<div class="auth-shell">
+  <div class="auth-card row g-0">
+    <div class="col-lg-5 auth-hero p-4 p-xl-5 d-flex flex-column justify-content-between">
+      <div>
+        <div class="brand-mark mb-4">
+          <i class="bi bi-person-plus"></i>
+        </div>
+        <p class="text-uppercase text-white-50 fw-semibold small mb-2">Exam Registration System</p>
+        <h1 class="display-6 fw-semibold mb-3">Create your account.</h1>
+        <p class="lead mb-4 text-white-50">
+          Register to access your exams and dashboard.
+        </p>
+      </div>
+
+      <ul class="feature-list">
+        <li><i class="bi bi-shield-lock"></i><span>Quick and secure signup.</span></li>
+        <li><i class="bi bi-calendar2-check"></i><span>Manage your exam access.</span></li>
+      </ul>
+    </div>
+
+    <div class="col-lg-7 auth-form-panel p-4 p-lg-5">
+      <div class="mb-4">
+        <h2 class="h3 mb-2">Student registration</h2>
+        <p class="text-muted mb-0">Fill in the details below.</p>
+      </div>
+
+      <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+          {{ form.username.label(class="form-label") }}
+          {{ form.username(class="form-control" + (" is-invalid" if form.username.errors else ""), placeholder="Enter your username") }}
+          {% for err in form.username.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.email.label(class="form-label") }}
+          {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="Enter your email") }}
+          {% for err in form.email.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.password.label(class="form-label") }}
+          {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="Enter your password") }}
+          {% for err in form.password.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.confirm_password.label(class="form-label") }}
+          {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else ""), placeholder="Confirm your password") }}
+          {% for err in form.confirm_password.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">{{ form.submit.label.text }}</button>
+        </div>
+
+        <p class="auth-footnote mt-4 mb-0 text-muted small">
+          Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a>
+        </p>
+      </form>
+    </div>
   </div>
-  <div class="mb-3">
-    {{ form.email.label(class="form-label") }}
-    {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
-    {% for err in form.email.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
-  </div>
-  <div class="mb-3">
-    {{ form.password.label(class="form-label") }}
-    {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
-    {% for err in form.password.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
-    <div class="form-text">At least 8 characters.</div>
-  </div>
-  <div class="mb-3">
-    {{ form.confirm_password.label(class="form-label") }}
-    {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
-    {% for err in form.confirm_password.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
-  </div>
-  <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
-  <p class="mt-3 mb-0 text-muted small">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
-</form>
+</div>
 {% endblock %}
